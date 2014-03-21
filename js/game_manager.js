@@ -100,9 +100,13 @@ GameManager.prototype.moveTile = function (tile, cell) {
 };
 
 GameManager.prototype.testFib = function(val1, val2) {
-  sum = val1 + val2;
-  valid = [2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597]
-  return valid.indexOf(sum) != 1
+  var sum = val1 + val2;
+  var valid = new Array(2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597);
+  for (var i = 0; i < valid.length; i++) {
+    if (sum === valid[i]) {
+      return true;
+    }
+  return false;
 };
 
 // Move tiles on the grid in the specified direction
