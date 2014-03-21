@@ -136,7 +136,7 @@ GameManager.prototype.move = function (direction) {
         var next      = self.grid.cellContent(positions.next);
 
         // Only one merger per row traversal?
-        if (next && self.testFib(next.value, tile.value) && !next.mergedFrom) {
+        if (next && this.testFib(next.value, tile.value) && !next.mergedFrom) {
           var merged = new Tile(positions.next, tile.value + next.value);
           merged.mergedFrom = [tile, next];
 
@@ -239,7 +239,7 @@ GameManager.prototype.tileMatchesAvailable = function () {
 
           var other  = self.grid.cellContent(cell);
 
-          if (other && self.testFib(other.value, tile.value)) {
+          if (other && this.testFib(other.value, tile.value)) {
             return true; // These two tiles can be merged
           }
         }
