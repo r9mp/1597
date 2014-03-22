@@ -347,11 +347,11 @@ hr {
     background: #f67c5f; }
   .tile.tile-144 .tile-inner {
     color: #f9f6f2;
-    background: #f65e3b; }
-    font-size: 45px;
+    background: #f65e3b;
+    font-size: 45px; }
   .tile.tile-233 .tile-inner {
     color: #f9f6f2;
-    background: #edcf72;
+    background: #edcc72;
     box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.2381), inset 0 0 0 1px rgba(255, 255, 255, 0.14286);
     font-size: 45px; }
     @media screen and (max-width: 520px) {
