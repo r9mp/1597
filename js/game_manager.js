@@ -43,7 +43,9 @@ GameManager.prototype.setup = function () {
   this.keepPlaying = false;
 
   // Add the initial tiles
+  //console.log('test');
   this.addStartTiles();
+  //console.log('Added start tiles');
 
   // Update the actuator
   this.actuate();
@@ -101,11 +103,18 @@ GameManager.prototype.moveTile = function (tile, cell) {
 
 GameManager.prototype.testFib = function(val1, val2) {
   var sum = val1 + val2;
-  var valid = new Array(2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597);
-  for (var i = 0; i < valid.length; i++) {
-    if (sum === valid[i]) {
+  var num1=1;
+  var num2=1;
+  var newsum=num1+num2;
+  for (var i = 0; i < 35 && sum >= newsum; i++) {
+    if (sum === newsum) {
       return true;
+    } else {
+      num1=num2;
+      num2=newsum;
+      newsum=num1+num2;
     }
+  }
   return false;
 };
 
@@ -136,7 +145,7 @@ GameManager.prototype.move = function (direction) {
         var next      = self.grid.cellContent(positions.next);
 
         // Only one merger per row traversal?
-        if (next && this.testFib(next.value, tile.value) && !next.mergedFrom) {
+        if (next && self.testFib(next.value, tile.value) && !next.mergedFrom) {
           var merged = new Tile(positions.next, tile.value + next.value);
           merged.mergedFrom = [tile, next];
 
@@ -239,7 +248,7 @@ GameManager.prototype.tileMatchesAvailable = function () {
 
           var other  = self.grid.cellContent(cell);
 
-          if (other && this.testFib(other.value, tile.value)) {
+          if (other && self.testFib(other.value, tile.value)) {
             return true; // These two tiles can be merged
           }
         }
