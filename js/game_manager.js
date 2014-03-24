@@ -101,18 +101,18 @@ GameManager.prototype.moveTile = function (tile, cell) {
   tile.updatePosition(cell);
 };
 
+// Tests if two values sum to a Fibonacci number
 GameManager.prototype.testFib = function(val1, val2) {
   var sum = val1 + val2;
-  var num1=1;
-  var num2=1;
-  var newsum=num1+num2;
-  for (var i = 0; i < 35 && sum >= newsum; i++) {
-    if (sum === newsum) {
+  var fib = [1,1]
+
+  while (sum > fib[fib.length-1]) {
+    fib.push(fib[fib.length-1] + fib[fib.length-2])
+  }
+  
+  for (var i = 0; i<fib.length && sum>=fib[i]; i++) {
+    if (sum === fib[i]) {
       return true;
-    } else {
-      num1=num2;
-      num2=newsum;
-      newsum=num1+num2;
     }
   }
   return false;
