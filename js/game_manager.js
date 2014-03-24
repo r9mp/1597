@@ -103,10 +103,16 @@ GameManager.prototype.moveTile = function (tile, cell) {
 
 GameManager.prototype.testFib = function(val1, val2) {
   var sum = val1 + val2;
-  var valid = [2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597];
-  for (var i = 0; i < valid.length; i++) {
-    if (sum === valid[i]) {
+  var num1=1;
+  var num2=1;
+  var newsum=num1+num2;
+  for (var i = 0; i < 35 && sum >= newsum; i++) {
+    if (sum === newsum) {
       return true;
+    } else {
+      num1=num2;
+      num2=newsum;
+      newsum=num1+num2;
     }
   }
   return false;
