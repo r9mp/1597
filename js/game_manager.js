@@ -16,12 +16,13 @@ function GameManager(size, InputManager, Actuator, ScoreManager) {
 // Restart the game
 GameManager.prototype.restart = function () {
   this.actuator.continue();
-  this.setup();
+  this.setup(true);
 };
 
 // Keep playing after winning
 GameManager.prototype.keepPlaying = function () {
   this.keepPlaying = true;
+  this.scoreManager.set('keepPlaying', this.keepPlaying);
   this.actuator.continue();
 };
 
@@ -34,18 +35,25 @@ GameManager.prototype.isGameTerminated = function () {
 };
 
 // Set up the game
-GameManager.prototype.setup = function () {
-  this.grid        = new Grid(this.size);
+GameManager.prototype.setup = function (forceReset = false) {
+  if (!forceReset && this.scoreManager.get('cells')) {
+    // Getting game from local storage
+    this.grid = new Grid(this.size, this.scoreManager.get('cells'));
+    this.score = this.scoreManager.get('score');
+    this.over = this.scoreManager.get('over');
+    this.won = this.scoreManager.get('won');
+    this.keepPlaying = this.scoreManager.get('keepPlaying');
+  } else {
+    // Setting default values
+    this.grid = new Grid(this.size);
+    this.score = 0;
+    this.over = false;
+    this.won = false;
+    this.keepPlaying = false;
 
-  this.score       = 0;
-  this.over        = false;
-  this.won         = false;
-  this.keepPlaying = false;
-
-  // Add the initial tiles
-  //console.log('test');
-  this.addStartTiles();
-  //console.log('Added start tiles');
+    // Add the initial tiles
+    this.addStartTiles();
+  }
 
   // Update the actuator
   this.actuate();
@@ -70,16 +78,27 @@ GameManager.prototype.addRandomTile = function () {
 
 // Sends the updated grid to the actuator
 GameManager.prototype.actuate = function () {
-  if (this.scoreManager.get() < this.score) {
-    this.scoreManager.set(this.score);
+  const isTerminated = this.isGameTerminated();
+
+  // Saving the game
+  this.scoreManager.set('cells', this.grid.cells);
+  this.scoreManager.set('score', this.score);
+  this.scoreManager.set('over', this.over);
+  this.scoreManager.set('won', this.won);
+  this.scoreManager.set('keepPlaying', this.keepPlaying);
+  this.scoreManager.set('terminated', isTerminated);
+
+  // If best score is reached, sets it
+  if (this.scoreManager.get('bestScore') < this.score) {
+    this.scoreManager.set('bestScore', this.score);
   }
 
   this.actuator.actuate(this.grid, {
     score:      this.score,
     over:       this.over,
     won:        this.won,
-    bestScore:  this.scoreManager.get(),
-    terminated: this.isGameTerminated()
+    bestScore:  this.scoreManager.get('bestScore'),
+    terminated: isTerminated
   });
 
 };
@@ -104,10 +123,10 @@ GameManager.prototype.moveTile = function (tile, cell) {
 // Tests if two values sum to a Fibonacci number
 GameManager.prototype.testFib = function(val1, val2) {
   var sum = val1 + val2;
-  var fib = [1,1]
+  var fib = [1,1];
 
   while (sum > fib[fib.length-1]) {
-    fib.push(fib[fib.length-1] + fib[fib.length-2])
+    fib.push(fib[fib.length-1] + fib[fib.length-2]);
   }
   
   for (var i = 0; i<fib.length && sum>=fib[i]; i++) {
@@ -158,7 +177,7 @@ GameManager.prototype.move = function (direction) {
           // Update the score
           self.score += merged.value;
 
-          // The mighty 2048 tile
+          // The mighty 1597 tile
           if (merged.value === 1597) self.won = true;
         } else {
           self.moveTile(tile, positions.farthest);

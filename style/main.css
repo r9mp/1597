@@ -50,10 +50,12 @@ h1.title {
     opacity: 0; } }
 
 .scores-container {
+  display: flex;
+  gap: 10px;
   float: right;
   text-align: right; }
 
-.score-container, .best-container {
+.score-container, .best-container, .restart-container {
   position: relative;
   display: inline-block;
   background: #bbada0;
@@ -349,6 +351,9 @@ hr {
     color: #f9f6f2;
     background: #f65e3b;
     font-size: 45px; }
+@media screen and (max-width: 520px) {
+  .tile.tile-144 .tile-inner {
+    font-size: 25px; } }
   .tile.tile-233 .tile-inner {
     color: #f9f6f2;
     background: #edcc72;
@@ -564,17 +569,26 @@ hr {
     padding: 0 20px; }
 
   h1.title {
-    font-size: 27px;
+    font-size: 25px;
     margin-top: 15px; }
 
   .container {
     width: 280px;
     margin: 0 auto; }
 
-  .score-container, .best-container {
+  .scores-container {
+    gap: 6px
+  }
+
+  .score-container, .best-container, .restart-container {
     margin-top: 0;
-    padding: 15px 10px;
-    min-width: 40px; }
+    padding: 12px 10px;
+    min-width: 40px;
+    font-size: 18px }
+
+  .score-container:after, .best-container:after {
+    top: 8px;
+  }
 
   .heading {
     margin-bottom: 10px; }
@@ -749,3 +763,55 @@ hr {
     margin-top: 90px !important; }
   .game-message .lower {
     margin-top: 30px !important; } }
+
+div.restart-icon {
+  position: relative;
+  transform: rotate(90deg);
+}
+
+div.restart-container {
+  padding: 12px 14px 18px 12px;
+}
+
+div.restart-container:hover {
+  cursor: pointer;
+}
+
+.restart-icon-single:before, .restart-icon-single:after {
+  content: '';
+  display: block;
+}
+.restart-icon-single:before {
+  border-color: transparent white white white;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: .18em;
+  height: 1em;
+  width: 1em;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.restart-icon-single:after {
+  border-color: transparent transparent transparent white;
+  border-style: solid;
+  border-width: .25em 0 .25em .40em;
+  height: 0;
+  position: absolute;
+  top: -4px;
+  left: 48%;
+  width: 0;
+}
+
+@media screen and (max-width: 520px) {
+  div.restart-container {
+    padding: 16px 8px 8px 7px;
+  }
+  .restart-icon-single:before {
+    height: 1.25em;
+    width: 1.25em;
+  }
+  .restart-icon-single:after {
+    left: 14px;
+    top: -3px;
+  }
+}

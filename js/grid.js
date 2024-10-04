@@ -1,18 +1,22 @@
-function Grid(size) {
+function Grid(size, cells) {
   this.size = size;
 
   this.cells = [];
 
-  this.build();
+  this.build(cells);
 }
 
 // Build a grid of the specified size
-Grid.prototype.build = function () {
+Grid.prototype.build = function (cells) {
   for (var x = 0; x < this.size; x++) {
     var row = this.cells[x] = [];
 
     for (var y = 0; y < this.size; y++) {
-      row.push(null);
+      if (cells && cells[x][y]) {
+        this.insertTile(new Tile({ x: x, y: y }, cells[x][y].value));
+      } else {
+        row.push(null);
+      }
     }
   }
 };
